@@ -2,7 +2,7 @@
 ![Version 1.0](https://img.shields.io/badge/Version-1.0.0-orange.svg)
 ![Python 3.8+](https://img.shields.io/badge/Python-3.8+-3776ab.svg)
 
-monerosub is an easy way to create and decode monero-subscription codes.
+MoneroSub is an easy way to create and decode monero-subscription codes.
 
 
 # How To Use:
