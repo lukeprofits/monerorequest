@@ -4,6 +4,8 @@
 
 MoneroSub is an easy way to create and decode monero-subscription codes.
 
+`pip install monerosub`
+
 
 # How To Use:
 * Install this package: `pip install monerosub`
