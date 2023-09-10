@@ -34,4 +34,4 @@ If you use this, send me some XMR
 
 
 ## License
-[MIT](https://github.com/Equim-chan/vanity-monero/blob/master/LICENSE)
+[MIT](LICENSE)
