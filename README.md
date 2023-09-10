@@ -31,7 +31,3 @@ If you use this, send me some XMR
 
 ## Requirements
 * [Python 3.8](https://www.python.org/downloads/) or above
-
-
-## License
-[MIT](LICENSE)
