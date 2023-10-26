@@ -18,9 +18,15 @@ MoneroRequest is an easy way to create and decode Monero Payment Requests.
 * When decoded, it holds this information: `{'amount': '25.99', 'change_indicator_url': '', 'currency': 'USD', 'custom_label': 'Unlabeled Monero Payment Request', 'days_per_billing_cycle': 30, 'number_of_payments': 0, 'payment_id': '0aff662b3151e624', 'sellers_wallet': '4At3X5rvVypTofgmueN9s9QtrzdRe5BueFrskAZi17BoYbhzysozzoMFB6zWnTKdGC6AxEAbEE5czFR3hbEEJbsm4hCeX2S', 'start_date': '2023-10-26T04:55:37.443Z'}`
 
 # Example Usage:
-* To create a Monero Payment Request: `make_monero_payment_request(custom_label='My Subscription', sellers_wallet='4At3X5rvVypTofgmueN9s9QtrzdRe5BueFrskAZi17BoYbhzysozzoMFB6zWnTKdGC6AxEAbEE5czFR3hbEEJbsm4hCeX2S', currency='USD', amount=19.95, billing_cycle_days=30)`
-* To decode a Monero Payment Request: `decode_monero_payment_request(monero_subscription_code='monero-subscription:H4sIAOdsgWQC/x2OXU+DMBSG/wrh2i18D7yDCSaamTimTm9IWw6jsVDSD7U1/nfpLk7OyXue5Hl/faKl4lPHEAbm33r+QWy9VmM3kgi6KMpn/8bzJTAGQnbfaN3KkUmp4nMqvl7NcuLDZdLwVMjiWQnbHyGtNDRCfpYfNNxV/B2P1khuLT80VWbf5tNjf7/Pyp+6xHWdEtsc43G9HrCcknEP56h1UqKFgJkYp3tp71yEJq5n5w+LbZGuwYLMBLPqaH8tFSZDmO+iPAUYUE+u1RUSquuRAkdEQRRvgmwT5O6HKWN0vnTEEAYrY+TKxMHfP4UYQxEZAQAA')`
+* To create a Monero Payment Request:
+```
+monero_payment_request = make_monero_payment_request(custom_label='Unlabeled Monero Payment Request', sellers_wallet='4At3X5rvVypTofgmueN9s9QtrzdRe5BueFrskAZi17BoYbhzysozzoMFB6zWnTKdGC6AxEAbEE5czFR3hbEEJbsm4hCeX2S', currency='USD', amount='25.99', payment_id='', start_date='', days_per_billing_cycle=30, number_of_payments=1, change_indicator_url='')
+```
 
+* To decode a Monero Payment Request:
+```
+decode_monero_payment_request(monero_payment_request='monero-request:1:H4sIAAAAAAAC/y1QyU7DMBD9lcrntkriOFVyS0uKBCqCLlB6sex40kQkdvECJIh/xymc5i0z8zTzjVinnLQoQxGZpymaorJm8gy0kaIpmVWaOt16e3Sc1iDL3rPD7uYqGKs62jIOY8tBXhGIyUZJ0GryyPoOpJ1s4d2BsX5CsN7QC2jKm7Zt5JmWfdkCynAwRdJ13Duqope/OYMyL/8T2ggfEbCqSpKI45CEkESxX2mgbUEb+sl8HQ+Jc4uPRH8895e9qs6dg4fUpE9WD2ILZOlgrc1bfmrCxVK98nrojRoGtVkvk+FF7u/F7SrJv4qcFwUph/UW1x7dcdPF9QqO0W6MtExbKpiF8W9BhGdhMIuSfRBnhGR4MY9jfEI/vzFHmeFdAQAA')
+```
 
 # Donate
 
