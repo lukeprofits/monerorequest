@@ -31,6 +31,12 @@ decode_monero_payment_request(monero_payment_request='monero-request:1:H4sIAAAAA
 
 
 # Donate
+- XMR: `4At3X5rvVypTofgmueN9s9QtrzdRe5BueFrskAZi17BoYbhzysozzoMFB6zWnTKdGC6AxEAbEE5czFR3hbEEJbsm4hCeX2S`
+- BTC: `1ACCQMwHYUkA1v449DvQ9t6dm3yv1enN87`
+- Cash App: `$LukeProfits`
+<a href="https://www.buymeacoffee.com/lukeprofits" target="_blank">
+  <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;">
+</a><br>
 
 ## Requirements
 * [Python 3.8](https://www.python.org/downloads/) or above
