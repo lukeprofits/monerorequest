@@ -30,6 +30,15 @@ decode_monero_payment_request(monero_payment_request='monero-request:1:H4sIAAAAA
 * When decoded, it holds this information: `{'amount': '25.99', 'change_indicator_url': '', 'currency': 'USD', 'custom_label': 'Unlabeled Monero Payment Request', 'days_per_billing_cycle': 30, 'number_of_payments': 0, 'payment_id': '0aff662b3151e624', 'sellers_wallet': '4At3X5rvVypTofgmueN9s9QtrzdRe5BueFrskAZi17BoYbhzysozzoMFB6zWnTKdGC6AxEAbEE5czFR3hbEEJbsm4hCeX2S', 'start_date': '2023-10-26T04:55:37.443Z'}`
 
 
+# Defaults For `make_monero_payment_request()`
+* If `payment_id` is left blank, a random one will be generated. *(If you do not want to use a payment_id, set payment_id to `0000000000000000`.)*
+* If `start_date` is left blank, the current time will be used.
+* If `custom_label` is left blank, it will be set to `Unlabeled Monero Payment Request`
+* If `days_per_billing_cycle` is left blank, it will be set to `30`
+* If `number_of_payments` is left blank, it will be set to `1`
+* If `version` is left blank, the latest version will be used.
+
+
 # Donate
 - XMR: `4At3X5rvVypTofgmueN9s9QtrzdRe5BueFrskAZi17BoYbhzysozzoMFB6zWnTKdGC6AxEAbEE5czFR3hbEEJbsm4hCeX2S`
 - BTC: `1ACCQMwHYUkA1v449DvQ9t6dm3yv1enN87`
