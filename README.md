@@ -12,7 +12,8 @@ MoneroRequest is an easy way to create and decode Monero Payment Requests.
 * Or use: `decode_monero_payment_request()`
 
 # Example Monero Payment Request:
-* A Monero Payment Request looks like this: `monero-request:1:H4sIAAAAAAAC/y1QXVPCMBD8K0yegWmbftC+FQRndHAUiiIvmTS50o5pgkmqto7/3RR9ut3b29u5+0a0VZ20KENBNE9TNEWspvIMpJG8YdQqTTotnDwqndYgWe/YYX9zbRirWiJoCePIQV4R8MlWSdBq8kj7FqSd7OC9A2Odg9PekAtoUjZCNPJMWM8EoAx7UyS7tnSKqsjlz2dQ5k/RPyENdxF+sAjjsEpwxfwkwcytNCAEaEM+qavjIWFu8THSH8/9pVDVue3gITXpk9UD30G07GCjzVt+avxkqV7LeuiNGga13Szj4UUW9/x2Fedf67xcryM2bHa4duiuNG1Yr+AY7MdIS7UlnFoY/+YFeOZ7syAuvCjDi8xP5zEOT+jnF8JbIrJdAQAA`
+* A Monero Payment Request looks like this: 
+```monero-request:1:H4sIAAAAAAAC/y1QXVPCMBD8K0yegWmbftC+FQRndHAUiiIvmTS50o5pgkmqto7/3RR9ut3b29u5+0a0VZ20KENBNE9TNEWspvIMpJG8YdQqTTotnDwqndYgWe/YYX9zbRirWiJoCePIQV4R8MlWSdBq8kj7FqSd7OC9A2Odg9PekAtoUjZCNPJMWM8EoAx7UyS7tnSKqsjlz2dQ5k/RPyENdxF+sAjjsEpwxfwkwcytNCAEaEM+qavjIWFu8THSH8/9pVDVue3gITXpk9UD30G07GCjzVt+avxkqV7LeuiNGga13Szj4UUW9/x2Fedf67xcryM2bHa4duiuNG1Yr+AY7MdIS7UlnFoY/+YFeOZ7syAuvCjDi8xP5zEOT+jnF8JbIrJdAQAA```
 
 * When decoded, it holds this information: ```JSON
 {'amount': '25.99', 'change_indicator_url': '', 'currency': 'USD', 'custom_label': 'Unlabeled Monero Payment Request', 'days_per_billing_cycle': 30, 'number_of_payments': 0, 'payment_id': '0aff662b3151e624', 'sellers_wallet': '4At3X5rvVypTofgmueN9s9QtrzdRe5BueFrskAZi17BoYbhzysozzoMFB6zWnTKdGC6AxEAbEE5czFR3hbEEJbsm4hCeX2S', 'start_date': '2023-10-26T04:55:37.443Z'}
