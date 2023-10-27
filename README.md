@@ -41,7 +41,7 @@ decode_monero_payment_request(monero_payment_request='monero-request:1:H4sIAAAAA
 
 # Supplimental Functions: 
 * Generate a random payment_id: `make_random_payment_id()`
-* Create RFC3339 timestamp from a datetime object: `convert_datetime_object_to_truncated_RFC3339_timestamp_format(datetime_object)`
+* Create an RFC3339 timestamp for `start_date` from a datetime object: `convert_datetime_object_to_truncated_RFC3339_timestamp_format(datetime_object)`
 * Print the Monero logo to console: `print_monero_logo()`
 
 
