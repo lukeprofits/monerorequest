@@ -197,16 +197,29 @@ class Check:
             return False
 
     @staticmethod
-    def wallet(wallet_address):
+    def wallet(wallet_address, allow_standard=True, allow_integrated_address=True, allow_subaddress=False):
+        # Check if walled_address is a string
         if type(wallet_address) != str:
             return False
 
-        # Check if the wallet address starts with the number 4
-        if wallet_address[0] != "4":
+        # Check if the wallet address starts with the number 4 (or 8 for subaddresses)
+        allowed_first_characters = []
+        if allow_standard:
+            allowed_first_characters.append('4')
+        if allow_subaddress:
+            allowed_first_characters.append('8')
+
+        if wallet_address[0] not in allowed_first_characters:
             return False
 
-        # Check if the wallet address is exactly 95 characters long
-        if len(wallet_address) != 95:
+        # Check if the wallet address is exactly 95 characters long (or 106 for integrated addresses)
+        allowed_wallet_lengths = []
+        if allow_standard or allow_subaddress:
+            allowed_wallet_lengths.append(95)
+        if allow_integrated_address:
+            allowed_wallet_lengths.append(106)
+
+        if len(wallet_address) not in allowed_wallet_lengths:
             return False
 
         # Check if the wallet address contains only valid characters
