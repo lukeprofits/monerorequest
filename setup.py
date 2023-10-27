@@ -1,12 +1,12 @@
 from setuptools import setup
 
 setup(
-    name='monerosub',
+    name='monerorequest',
     version='1.0.0',
     author="Luke Profits",
-    description="monerosub is an easy way to create/decode monero-subscription codes.",
-    url="https://github.com/lukeprofits/monerosub",
-    packages=['monerosub'],
+    description="monerorequest is an easy way to create/decode Monero Payment Requests.",
+    url="https://github.com/lukeprofits/monerorequest",
+    packages=['monerorequest'],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
