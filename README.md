@@ -12,12 +12,6 @@ MoneroRequest is an easy way to create/decode [Monero Payment Requests](https://
 * Or use: `decode_monero_payment_request()`
 
 
-# Supplimental Functions: 
-* Generate a random payment_id: `make_random_payment_id()`
-* Create RFC3339 timestamp from a datetime object: `convert_datetime_object_to_truncated_RFC3339_timestamp_format(datetime_object)`
-* Print the Monero logo to console: `print_monero_logo()`
-
-
 # Example Usage:
 * To create a Monero Payment Request:
 ```
@@ -43,6 +37,12 @@ decode_monero_payment_request(monero_payment_request='monero-request:1:H4sIAAAAA
 * If `days_per_billing_cycle` is left blank, it will be set to `30`
 * If `number_of_payments` is left blank, it will be set to `1`
 * If `version` is left blank, the latest version will be used.
+
+
+# Supplimental Functions: 
+* Generate a random payment_id: `make_random_payment_id()`
+* Create RFC3339 timestamp from a datetime object: `convert_datetime_object_to_truncated_RFC3339_timestamp_format(datetime_object)`
+* Print the Monero logo to console: `print_monero_logo()`
 
 
 # Donate
