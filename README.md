@@ -39,7 +39,7 @@ monero_payment_request_data = monerorequest.decode_monero_payment_request(monero
 * If `version` is left blank, the latest version will be used.
 
 
-# Supplimental Functions: 
+# Supplemental Functions: 
 * Generate a random payment_id: `monerorequest.make_random_payment_id()`
 * Create an RFC3339 timestamp for `start_date` from a datetime object: `monerorequest.convert_datetime_object_to_truncated_RFC3339_timestamp_format(datetime_object)`
 * Print the Monero logo to console: `monerorequest.print_monero_logo()`
