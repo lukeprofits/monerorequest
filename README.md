@@ -58,4 +58,4 @@ monero_payment_request_data = monerorequest.decode_monero_payment_request(monero
 
 
 ## License
-[MIT](https://github.com/Equim-chan/vanity-monero/blob/master/LICENSE)
+[MIT](/LICENSE)
