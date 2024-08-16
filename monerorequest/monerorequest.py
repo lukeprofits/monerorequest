@@ -34,7 +34,11 @@ def make_monero_payment_request(custom_label: str = 'Unlabeled Monero Payment Re
                                 days_per_billing_cycle: int = 30,
                                 number_of_payments: int = 1,
                                 change_indicator_url: str = '',
-                                version: str = '1'):
+                                version: str = '1',
+                                allow_standard: bool = True,
+                                allow_integrated_address: bool = True,
+                                allow_subaddress: bool = False,
+                                allow_stagenet: bool = False):
 
     # Defaults To Use
     if not payment_id:
@@ -44,7 +48,7 @@ def make_monero_payment_request(custom_label: str = 'Unlabeled Monero Payment Re
 
     # Make sure all arguments are valid
     if Check.name(custom_label):
-        if Check.wallet(sellers_wallet):
+        if Check.wallet(sellers_wallet, allow_standard, allow_integrated_address, allow_subaddress, allow_stagenet):
             if Check.currency(currency):
                 if Check.amount(amount):
                     if Check.payment_id(payment_id):
@@ -197,17 +201,23 @@ class Check:
             return False
 
     @staticmethod
-    def wallet(wallet_address, allow_standard=True, allow_integrated_address=True, allow_subaddress=False):
+    def wallet(wallet_address, allow_standard=True, allow_integrated_address=True, allow_subaddress=False, allow_stagenet=False):
         # Check if walled_address is a string
         if type(wallet_address) != str:
             return False
 
         # Check if the wallet address starts with the number 4 (or 8 for subaddresses)
         allowed_first_characters = []
-        if allow_standard:
-            allowed_first_characters.append('4')
-        if allow_subaddress:
-            allowed_first_characters.append('8')
+        if allow_stagenet:
+            if allow_standard:
+                allowed_first_characters.append('5')
+            if allow_subaddress:
+                allowed_first_characters.append('7')
+        else:
+            if allow_standard:
+                allowed_first_characters.append('4')
+            if allow_subaddress:
+                allowed_first_characters.append('8')
 
         if wallet_address[0] not in allowed_first_characters:
             return False
