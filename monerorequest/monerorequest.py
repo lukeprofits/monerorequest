@@ -282,7 +282,7 @@ class Check:
 
     @staticmethod
     def number_of_payments(number_of_payments):
-        if type(number_of_payments) == int and number_of_payments >= 0:
+        if type(number_of_payments) == int and number_of_payments >= -1:
             return True
         else:
             return False
