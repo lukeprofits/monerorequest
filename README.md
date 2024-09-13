@@ -15,26 +15,26 @@ MoneroRequest is an easy way to create/decode [Monero Payment Requests](https://
 # Example Usage:
 * To create a Monero Payment Request:
 ```
-monero_payment_request = monerorequest.make_monero_payment_request(custom_label='Unlabeled Monero Payment Request', sellers_wallet='4At3X5rvVypTofgmueN9s9QtrzdRe5BueFrskAZi17BoYbhzysozzoMFB6zWnTKdGC6AxEAbEE5czFR3hbEEJbsm4hCeX2S', currency='USD', amount='25.99', payment_id='', start_date='', days_per_billing_cycle=30, number_of_payments=1, change_indicator_url='')
+monero_payment_request = monerorequest.make_monero_payment_request(custom_label='Unlabeled Monero Payment Request', sellers_wallet='4At3X5rvVypTofgmueN9s9QtrzdRe5BueFrskAZi17BoYbhzysozzoMFB6zWnTKdGC6AxEAbEE5czFR3hbEEJbsm4hCeX2S', currency='USD', amount='25.99', payment_id='', start_date='', schedule='0 0 1 * *', number_of_payments=1, change_indicator_url='')
 ```
 
 * To decode a Monero Payment Request:
 ```
-monero_payment_request_data = monerorequest.decode_monero_payment_request(monero_payment_request='monero-request:1:H4sIAAAAAAAC/y1QyU7DMBD9lcrntkriOFVyS0uKBCqCLlB6sex40kQkdvECJIh/xymc5i0z8zTzjVinnLQoQxGZpymaorJm8gy0kaIpmVWaOt16e3Sc1iDL3rPD7uYqGKs62jIOY8tBXhGIyUZJ0GryyPoOpJ1s4d2BsX5CsN7QC2jKm7Zt5JmWfdkCynAwRdJ13Duqope/OYMyL/8T2ggfEbCqSpKI45CEkESxX2mgbUEb+sl8HQ+Jc4uPRH8895e9qs6dg4fUpE9WD2ILZOlgrc1bfmrCxVK98nrojRoGtVkvk+FF7u/F7SrJv4qcFwUph/UW1x7dcdPF9QqO0W6MtExbKpiF8W9BhGdhMIuSfRBnhGR4MY9jfEI/vzFHmeFdAQAA')
+monero_payment_request_data = monerorequest.decode_monero_payment_request(monero_payment_request='monero-request:2:H4sIAAAAAAACAy1PyU7DMBD9FcvHqq2yNOstLS0SqAi6QOnFsuNpE5HYxQuQIP4dp3Cat8yb5RvTVlphcI6DaJpleIzLioozkFrwuqRGKmJV4+zBsUqBKDvH9tubq6CNbElDGQwte3FFwNFaClASPdKuBWHQBt4taOMSwrYMFJEncvnzNM79Mf4npOZuTJqmGU98xsIkLpMkdTFdVsBtA871kId8NEKjQYamAaXJJ3V1+GFWmPAQqY/n7rKTp3Nr4SHT2ZNRPd9ANLewUvqtONZ+MpevrOo7LfterlfzuH8Ru3t+u4iLr2XBlsuo7FebsHLojul2Vi3gEGyHlYYqQzg1wy2BF8wmXjbxw52f5lGQh940jZMj/vkFse3xMVgBAAA=')
 ```
 
 # Example Monero Payment Request:
 * A Monero Payment Request looks like this: 
-```monero-request:1:H4sIAAAAAAAC/y1QXVPCMBD8K0yegWmbftC+FQRndHAUiiIvmTS50o5pgkmqto7/3RR9ut3b29u5+0a0VZ20KENBNE9TNEWspvIMpJG8YdQqTTotnDwqndYgWe/YYX9zbRirWiJoCePIQV4R8MlWSdBq8kj7FqSd7OC9A2Odg9PekAtoUjZCNPJMWM8EoAx7UyS7tnSKqsjlz2dQ5k/RPyENdxF+sAjjsEpwxfwkwcytNCAEaEM+qavjIWFu8THSH8/9pVDVue3gITXpk9UD30G07GCjzVt+avxkqV7LeuiNGga13Szj4UUW9/x2Fedf67xcryM2bHa4duiuNG1Yr+AY7MdIS7UlnFoY/+YFeOZ7syAuvCjDi8xP5zEOT+jnF8JbIrJdAQAA```
+```monero-request:2:H4sIAAAAAAACAy1PyU7DMBD9FcvHqq2yNOstLS0SqAi6QOnFsuNpE5HYxQuQIP4dp3Cat8yb5RvTVlphcI6DaJpleIzLioozkFrwuqRGKmJV4+zBsUqBKDvH9tubq6CNbElDGQwte3FFwNFaClASPdKuBWHQBt4taOMSwrYMFJEncvnzNM79Mf4npOZuTJqmGU98xsIkLpMkdTFdVsBtA871kId8NEKjQYamAaXJJ3V1+GFWmPAQqY/n7rKTp3Nr4SHT2ZNRPd9ANLewUvqtONZ+MpevrOo7LfterlfzuH8Ru3t+u4iLr2XBlsuo7FebsHLojul2Vi3gEGyHlYYqQzg1wy2BF8wmXjbxw52f5lGQh940jZMj/vkFse3xMVgBAAA=```
 
-* When decoded, it is a dictionary with this information: `{'amount': '25.99', 'change_indicator_url': '', 'currency': 'USD', 'custom_label': 'Unlabeled Monero Payment Request', 'days_per_billing_cycle': 30, 'number_of_payments': 0, 'payment_id': '0aff662b3151e624', 'sellers_wallet': '4At3X5rvVypTofgmueN9s9QtrzdRe5BueFrskAZi17BoYbhzysozzoMFB6zWnTKdGC6AxEAbEE5czFR3hbEEJbsm4hCeX2S', 'start_date': '2023-10-26T04:55:37.443Z'}`
+* When decoded, it is a dictionary with this information: `{'amount': '25.99', 'change_indicator_url': '', 'currency': 'USD', 'custom_label': 'Unlabeled Monero Payment Request', schedule='0 0 1 * *', 'number_of_payments': 0, 'payment_id': '0aff662b3151e624', 'sellers_wallet': '4At3X5rvVypTofgmueN9s9QtrzdRe5BueFrskAZi17BoYbhzysozzoMFB6zWnTKdGC6AxEAbEE5czFR3hbEEJbsm4hCeX2S', 'start_date': '2023-10-26T04:55:37.443Z'}`
 
 
 # Defaults For `make_monero_payment_request()`
 * If `payment_id` is left blank, a random one will be generated. *(If you do not want to use a payment_id, set payment_id to `0000000000000000`.)*
 * If `start_date` is left blank, the current time will be used.
 * If `custom_label` is left blank, it will be set to `Unlabeled Monero Payment Request`
-* If `days_per_billing_cycle` is left blank, it will be set to `30`
+* If `schedule` is left blank, it will be set to `0 0 1 * *`
 * If `number_of_payments` is left blank, it will be set to `1`
 * If `version` is left blank, the latest version will be used.
 
