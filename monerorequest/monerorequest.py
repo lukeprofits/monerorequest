@@ -32,9 +32,10 @@ def make_monero_payment_request(custom_label: str = 'Unlabeled Monero Payment Re
                                 payment_id: str = '',
                                 start_date: str = '',
                                 days_per_billing_cycle: int = 30,
+                                schedule: str = '0 0 1 * *',
                                 number_of_payments: int = 1,
                                 change_indicator_url: str = '',
-                                version: str = '1',
+                                version: str = '2',
                                 allow_standard: bool = True,
                                 allow_integrated_address: bool = True,
                                 allow_subaddress: bool = False,
@@ -54,6 +55,13 @@ def make_monero_payment_request(custom_label: str = 'Unlabeled Monero Payment Re
         if request.valid():
             return request.encode()
 
+    if version == '2':
+        request = RequestV2(custom_label=custom_label, sellers_wallet=sellers_wallet, currency=currency,
+                            amount=amount, payment_id=payment_id, start_date=start_date, schedule=schedule,
+                            change_indicator_url=change_indicator_url, allow_standard=allow_standard, number_of_payments=number_of_payments,
+                            allow_integrated_address=allow_integrated_address, allow_subaddress=allow_subaddress, allow_stagenet=allow_stagenet)
+        if request.valid():
+            return request.encode()
 def print_monero_logo():
     print('''
                     k                                     d                   
@@ -81,8 +89,8 @@ class Encode:
 
         if version == '1':
             encoded_str = Encode.v1_monero_payment_request(json_data)
-        # elif version == '2':
-        # encoded_str = encode_v2_monero_payment_request(json_data)
+        elif version == '2':
+            encoded_str = Encode.v2_monero_payment_request(json_data)
 
         # Add the Monero Subscription identifier & version number
         monero_payment_request = 'monero-request:' + str(version) + ':' + encoded_str
@@ -103,12 +111,9 @@ class Encode:
         encoded_str = base64.b64encode(compressed_data).decode('ascii')
         return encoded_str
 
-    '''
     @staticmethod
     def v2_monero_payment_request(json_data):
-       pass
-    '''
-
+       return Encode.v1_monero_payment_request(json_data)
 
 class Decode:
     @staticmethod
@@ -119,8 +124,8 @@ class Decode:
         if version == '1':
             monero_payment_request_data = Decode.v1_monero_payment_request(encoded_str=encoded_str)
 
-        #elif version == '2':
-        #    monero_payment_request = Decode.v2_monero_payment_request(encoded_str=encoded_str)
+        elif version == '2':
+           monero_payment_request_data = Decode.v2_monero_payment_request(encoded_str=encoded_str)
 
         else:
             raise ValueError("Invalid input")
@@ -140,17 +145,16 @@ class Decode:
         monero_payment_request_data = json.loads(json_str)
         return monero_payment_request_data
 
-    '''
     @staticmethod
     def v2_monero_payment_request(encoded_str):
-        pass
-    '''
+        return Decode.v1_monero_payment_request(encoded_str)
+
 
 
 class Check:
     @staticmethod
     def name(name):
-        if type(name) == str:
+        if isinstance(name, str):
             return True
         else:
             return False
@@ -158,7 +162,7 @@ class Check:
     @staticmethod
     def currency(currency):
         supported_currencies = ['XMR', 'USD']
-        if type(currency) == str and currency in supported_currencies:
+        if isinstance(currency, str) and currency in supported_currencies:
             return True
         else:
             return False
@@ -166,7 +170,7 @@ class Check:
     @staticmethod
     def wallet(wallet_address, allow_standard=True, allow_integrated_address=True, allow_subaddress=False, allow_stagenet=False):
         # Check if walled_address is a string
-        if type(wallet_address) != str:
+        if not isinstance(wallet_address, str):
             return False
 
         # Check if the wallet address starts with the number 4 (or 8 for subaddresses)
@@ -206,7 +210,7 @@ class Check:
 
     @staticmethod
     def payment_id(payment_id):
-        if type(payment_id) == str and len(payment_id) == 16:
+        if isinstance(payment_id, str) and len(payment_id) == 16:
             for char in payment_id:
                 if char not in '0123456789abcdef':
                     return False  # Invalid character found
@@ -216,7 +220,7 @@ class Check:
 
     @staticmethod
     def start_date(start_date):
-        if type(start_date) == str:
+        if isinstance(start_date, str):
             # If it is an empty string
             if not start_date:
                 return True
@@ -231,21 +235,21 @@ class Check:
 
     @staticmethod
     def amount(amount):
-        if type(amount) == str:
+        if isinstance(amount, str):
             if re.fullmatch(r'[\d,.]+', amount):
                 return True
         return False
 
     @staticmethod
     def days_per_billing_cycle(billing_cycle):
-        if type(billing_cycle) is int and billing_cycle >= 0:
+        if isinstance(billing_cycle, int) and billing_cycle >= 0:
             return True
         else:
             return False
 
     @staticmethod
     def number_of_payments(number_of_payments):
-        if type(number_of_payments) == int and number_of_payments >= -1:
+        if isinstance(number_of_payments, int) and number_of_payments >= -1:
             return True
         else:
             return False
@@ -254,11 +258,15 @@ class Check:
     def change_indicator_url(change_indicator_url):
         if change_indicator_url == "":
             return True  # Empty string is allowed
-        if type(change_indicator_url) == str:
+        if isinstance(change_indicator_url, str):
             parsed_url = urlparse(change_indicator_url)
             if all([parsed_url.scheme, parsed_url.netloc]):
                 return True  # Well-formed URL
         return False  # Invalid
+
+    @staticmethod
+    def schedule(schedule):
+        return CronValidation(schedule).valid()
 
 class RequestV1():
     def __init__(self, custom_label: str = 'Unlabeled Monero Payment Request', sellers_wallet: str = '', currency: str = '', amount: str = '', payment_id: str = '',
@@ -366,8 +374,8 @@ class RequestV2():
         if not Check.start_date(self.start_date):
             return_message.append('start_date is not a string, or is not in the correct format.')
 
-        if not Check.days_per_billing_cycle(self.days_per_billing_cycle):
-            return_message.append('billing_cycle is not an integer, or the value set was lower than 0.')
+        if not Check.schedule(self.schedule):
+            return_message.append('schedule is not a valid cron syntax.')
 
         if not Check.number_of_payments(self.number_of_payments):
             return_message.append('number_of_payments is not an integer, or is less than 1.')
@@ -388,7 +396,7 @@ class RequestV2():
             "amount": self.amount,
             "payment_id": self.payment_id,
             "start_date": self.start_date,
-            "days_per_billing_cycle": self.days_per_billing_cycle,
+            "schedule": self.schedule,
             "number_of_payments": self.number_of_payments,
             "change_indicator_url": self.change_indicator_url
         }
@@ -401,19 +409,20 @@ class CronValidation():
     dow_codes = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']
     def __init__(self, schedule):
         self.schedule = schedule
-        self.delimiters =         cron_def = self.parse_cron()
+        cron_def = self.parse_cron()
         self.minutes = cron_def['minutes']
         self.hours = cron_def['hours']
         self.days = cron_def['days']
         self.months = cron_def['months']
         self.dow = cron_def['dow']
         self.any = ['*']
+        self.errors = []
 
     def parse_cron(self):
         schedule_args = self.schedule.split(' ')
 
         if len(schedule_args) < 5:
-            ValueError('Invalid Cron: Too Few Of Arguments')
+            raise ValueError('Invalid Cron: Too Few Of Arguments')
 
         sched = {}
 
@@ -426,24 +435,23 @@ class CronValidation():
         return sched
 
     def valid(self):
-        return_message = []
         if not self.valid_minutes():
-            return_message.append('Invalid Minutes')
+            self.errors.append('Invalid Minutes')
 
         if not self.valid_hours():
-            return_message.append('Invalid Hours')
+            self.errors.append('Invalid Hours')
 
         if not self.valid_days():
-            return_message.append('Invalid Day')
+            self.errors.append('Invalid Day')
 
         if not self.valid_months():
-            return_message.append('Invalid Month')
+            self.errors.append('Invalid Month')
 
         if not self.valid_dow():
-            return_message.append('Invalid Day of the Week')
+            self.errors.append('Invalid Day of the Week')
 
-        if return_message:
-            raise ValueError(' '.join(return_message))
+        if self.errors:
+            return False
         else:
             return True
 
