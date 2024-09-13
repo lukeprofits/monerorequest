@@ -1,12 +1,9 @@
 import unittest
 import datetime
 from monerorequest import make_random_payment_id, convert_datetime_object_to_truncated_RFC3339_timestamp_format,\
-                          decode_monero_payment_request, make_monero_payment_request
+                          decode_monero_payment_request, make_monero_payment_request, CronValidation
 
 class TestMoneroRequest(unittest.TestCase):
-    def setUp(self):
-        return True
-
     def test_make_random_payment_id(self):
         valid_chars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f']
         payment_id = make_random_payment_id()
@@ -64,7 +61,7 @@ class TestMoneroRequest(unittest.TestCase):
                 'currency': '', 'amount': '10.00', 'payment_id': 'bc4c07f4c46ed2fb', 'start_date': '2024-09-05T19:18:15.430Z',
                 'days_per_billing_cycle': 1, 'number_of_payments': 10, 'change_indicator_url': ''
             }
-            with self.assertRaisesRegex(ValueError, 'Currency'):
+            with self.assertRaisesRegex(ValueError, 'currency'):
                 make_monero_payment_request(**payment_request)
 
         with self.subTest(i=3):
@@ -118,3 +115,55 @@ class TestMoneroRequest(unittest.TestCase):
             }
             with self.assertRaisesRegex(ValueError, 'change_indicator_url'):
                 make_monero_payment_request(**payment_request)
+
+class TestCronValidation(unittest.TestCase):
+    def test_valid_minutes(self):
+        with self.subTest(i=0):
+            self.assertEqual(CronValidation('* * * * *').valid_minutes(), True)
+        for idx in range(59):
+            with self.subTest(i=idx+1):
+                self.assertEqual(CronValidation(f'{idx} * * * *').valid_minutes(), True)
+        with self.subTest(i=61):
+            self.assertEqual(CronValidation('a * * * *').valid_minutes(), False)
+
+    def test_valid_hours(self):
+        with self.subTest(i=0):
+            self.assertEqual(CronValidation('* * * * *').valid_hours(), True)
+        for idx in range(23):
+            with self.subTest(i=idx+1):
+                self.assertEqual(CronValidation(f'* {idx} * * *').valid_hours(), True)
+        with self.subTest(i=25):
+            self.assertEqual(CronValidation('* a * * *').valid_hours(), False)
+
+    def test_valid_days(self):
+        with self.subTest(i=0):
+            self.assertEqual(CronValidation('* * * * *').valid_days(), True)
+        for idx in range(1, 31):
+            with self.subTest(i=idx+1):
+                self.assertEqual(CronValidation(f'* * {idx} * *').valid_days(), True)
+        with self.subTest(i=33):
+            self.assertEqual(CronValidation('* * a * *').valid_days(), False)
+
+    def test_valid_months(self):
+        with self.subTest(i=0):
+            self.assertEqual(CronValidation('* * * * *').valid_months(), True)
+        for idx in range(1, 12):
+            with self.subTest(i=idx+1):
+                self.assertEqual(CronValidation(f'* * * {idx} *').valid_months(), True)
+        for idx, month in enumerate(CronValidation.month_codes):
+            with self.subTest(i=idx+13):
+                self.assertEqual(CronValidation(f'* * * {month} *').valid_months(), True)
+        with self.subTest(i=14):
+            self.assertEqual(CronValidation('* * * a *').valid_months(), False)
+
+    def test_valid_dow(self):
+        with self.subTest(i=0):
+            self.assertEqual(CronValidation('* * * * *').valid_dow(), True)
+        for idx in range(0, 7):
+            with self.subTest(i=idx+1):
+                self.assertEqual(CronValidation(f'* * * * {idx}').valid_dow(), True)
+        for idx, dow in enumerate(CronValidation.dow_codes):
+            with self.subTest(i=idx+13):
+                self.assertEqual(CronValidation(f'* * * * {dow}').valid_dow(), True)
+        with self.subTest(i=14):
+            self.assertEqual(CronValidation('* * * * a').valid_dow(), False)

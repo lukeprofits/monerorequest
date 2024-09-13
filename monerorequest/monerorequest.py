@@ -46,50 +46,13 @@ def make_monero_payment_request(custom_label: str = 'Unlabeled Monero Payment Re
     if not start_date:
         start_date = convert_datetime_object_to_truncated_RFC3339_timestamp_format(datetime.now())
 
-    # Make sure all arguments are valid
-    if Check.name(custom_label):
-        if Check.wallet(sellers_wallet, allow_standard, allow_integrated_address, allow_subaddress, allow_stagenet):
-            if Check.currency(currency):
-                if Check.amount(amount):
-                    if Check.payment_id(payment_id):
-                        if Check.start_date(start_date):
-                            if Check.days_per_billing_cycle(days_per_billing_cycle):
-                                if Check.number_of_payments(number_of_payments):
-                                    if Check.change_indicator_url(change_indicator_url):
-                                        json_data = {
-                                            "custom_label": custom_label,
-                                            "sellers_wallet": sellers_wallet,
-                                            "currency": currency,
-                                            "amount": amount,
-                                            "payment_id": payment_id,
-                                            "start_date": start_date,
-                                            "days_per_billing_cycle": days_per_billing_cycle,
-                                            "number_of_payments": number_of_payments,
-                                            "change_indicator_url": change_indicator_url
-                                        }
-
-                                        # process data to create code
-                                        monero_payment_request = Encode.monero_payment_request_from_json(json_data=json_data, version=version)
-                                        return monero_payment_request
-                                    else:  # change_indicatior_url
-                                        raise ValueError('change_indicator_url is not a string, or is not a valid URL.')
-                                else:  # number_of_payments
-                                    raise ValueError('number_of_payments is not an integer, or is less than 1.')
-                            else:  # days_per_billing_cycle
-                                raise ValueError('billing_cycle is not an integer, or the value set was lower than 0.')
-                        else:  # start_date
-                            raise ValueError('start_date is not a string, or is not in the correct format.')
-                    else:  #payment_id
-                        raise ValueError('payment_id is not a string, is not exactly 16 characters long, or contains invalid character(s).')
-                else:  # amount
-                    raise ValueError('amount is not a string, or invalid characters in amount. Amount can only contain ",", ".", and numbers.')
-            else:  # currency
-                raise ValueError('Currency is not a string, or is not a supported.')
-        else:  # sellers_wallet
-            raise ValueError('sellers_wallet is not valid, because it is not a string, it is not exactly 95 characters long, it contains invalid characters, or it does not begin with a "4".')
-    else:  # custom_label
-        raise ValueError('custom_label is not a string.')
-
+    if version == '1':
+        request = RequestV1(custom_label=custom_label, sellers_wallet=sellers_wallet, currency=currency,
+                            amount=amount, payment_id=payment_id, start_date=start_date, days_per_billing_cycle=days_per_billing_cycle,
+                            number_of_payments=number_of_payments, change_indicator_url=change_indicator_url, allow_standard=allow_standard,
+                            allow_integrated_address=allow_integrated_address, allow_subaddress=allow_subaddress, allow_stagenet=allow_stagenet)
+        if request.valid():
+            return request.encode()
 
 def print_monero_logo():
     print('''
@@ -296,6 +259,255 @@ class Check:
             if all([parsed_url.scheme, parsed_url.netloc]):
                 return True  # Well-formed URL
         return False  # Invalid
+
+class RequestV1():
+    def __init__(self, custom_label: str = 'Unlabeled Monero Payment Request', sellers_wallet: str = '', currency: str = '', amount: str = '', payment_id: str = '',
+                 start_date: str = '', days_per_billing_cycle: int = 30, number_of_payments: int = 1, change_indicator_url: str = '',
+                 allow_standard: bool = True, allow_integrated_address: bool = True, allow_subaddress: bool = False, allow_stagenet: bool = False):
+        self.custom_label = custom_label
+        self.sellers_wallet = sellers_wallet
+        self.currency = currency
+        self.amount = amount
+        self.payment_id = payment_id
+        self.start_date = start_date
+        self.days_per_billing_cycle = days_per_billing_cycle
+        self.number_of_payments = number_of_payments
+        self.change_indicator_url = change_indicator_url
+        self.version = '1'
+        self.allow_standard = allow_standard
+        self.allow_integrated_address = allow_integrated_address
+        self.allow_subaddress = allow_subaddress
+        self.allow_stagenet = allow_stagenet
+
+    def valid(self):
+        return_message = []
+        if not Check.name(self.custom_label):
+            return_message.append('custom_label is not a string.')
+
+        if not Check.wallet(self.sellers_wallet, self.allow_standard, self.allow_integrated_address, self.allow_subaddress, self.allow_stagenet):
+            return_message.append('sellers_wallet is not valid, because it is not a string, it is not exactly 95 characters long, it contains invalid characters, or it does not begin with a "4".')
+
+        if not Check.currency(self.currency):
+            return_message.append('currency is not a string, or is not supported.')
+
+        if not Check.amount(self.amount):
+            return_message.append('amount is not a string, or invalid characters in amount. Amount can only contain ",", ".", and numbers.')
+
+        if not Check.payment_id(self.payment_id):
+            return_message.append('payment_id is not a string, is not exactly 16 characters long, or contains invalid character(s).')
+
+        if not Check.start_date(self.start_date):
+            return_message.append('start_date is not a string, or is not in the correct format.')
+
+        if not Check.days_per_billing_cycle(self.days_per_billing_cycle):
+            return_message.append('billing_cycle is not an integer, or the value set was lower than 0.')
+
+        if not Check.number_of_payments(self.number_of_payments):
+            return_message.append('number_of_payments is not an integer, or is less than 1.')
+
+        if not Check.change_indicator_url(self.change_indicator_url):
+            return_message.append('change_indicator_url is not a string, or is not a valid URL.')
+
+        if not return_message:
+            return True
+        else:
+            raise ValueError(' '.join(return_message))
+
+    def encode(self):
+        json_data = {
+            "custom_label": self.custom_label,
+            "sellers_wallet": self.sellers_wallet,
+            "currency": self.currency,
+            "amount": self.amount,
+            "payment_id": self.payment_id,
+            "start_date": self.start_date,
+            "days_per_billing_cycle": self.days_per_billing_cycle,
+            "number_of_payments": self.number_of_payments,
+            "change_indicator_url": self.change_indicator_url
+        }
+        return Encode.monero_payment_request_from_json(json_data=json_data, version=self.version)
+
+class RequestV2():
+    def __init__(self, custom_label: str = 'Unlabeled Monero Payment Request', sellers_wallet: str = '', currency: str = '', amount: str = '', payment_id: str = '',
+                 start_date: str = '', schedule: str = '0 0 1 * *', number_of_payments: int = 1, change_indicator_url: str = '',
+                 allow_standard: bool = True, allow_integrated_address: bool = True, allow_subaddress: bool = False, allow_stagenet: bool = False):
+        self.custom_label = custom_label
+        self.sellers_wallet = sellers_wallet
+        self.currency = currency
+        self.amount = amount
+        self.payment_id = payment_id
+        self.start_date = start_date
+        self.schedule = schedule
+        self.number_of_payments = number_of_payments
+        self.change_indicator_url = change_indicator_url
+        self.version = '2'
+        self.allow_standard = allow_standard
+        self.allow_integrated_address = allow_integrated_address
+        self.allow_subaddress = allow_subaddress
+        self.allow_stagenet = allow_stagenet
+
+    def valid(self):
+        return_message = []
+        if not Check.name(self.custom_label):
+            return_message.append('custom_label is not a string.')
+
+        if not Check.wallet(self.sellers_wallet, self.allow_standard, self.allow_integrated_address, self.allow_subaddress, self.allow_stagenet):
+            return_message.append('sellers_wallet is not valid, because it is not a string, it is not exactly 95 characters long, it contains invalid characters, or it does not begin with a "4".')
+
+        if not Check.currency(self.currency):
+            return_message.append('currency is not a string, or is not supported.')
+
+        if not Check.amount(self.amount):
+            return_message.append('amount is not a string, or invalid characters in amount. Amount can only contain ",", ".", and numbers.')
+
+        if not Check.payment_id(self.payment_id):
+            return_message.append('payment_id is not a string, is not exactly 16 characters long, or contains invalid character(s).')
+
+        if not Check.start_date(self.start_date):
+            return_message.append('start_date is not a string, or is not in the correct format.')
+
+        if not Check.days_per_billing_cycle(self.days_per_billing_cycle):
+            return_message.append('billing_cycle is not an integer, or the value set was lower than 0.')
+
+        if not Check.number_of_payments(self.number_of_payments):
+            return_message.append('number_of_payments is not an integer, or is less than 1.')
+
+        if not Check.change_indicator_url(self.change_indicator_url):
+            return_message.append('change_indicator_url is not a string, or is not a valid URL.')
+
+        if not return_message:
+            return True
+        else:
+            raise ValueError(' '.join(return_message))
+
+    def encode(self):
+        json_data = {
+            "custom_label": self.custom_label,
+            "sellers_wallet": self.sellers_wallet,
+            "currency": self.currency,
+            "amount": self.amount,
+            "payment_id": self.payment_id,
+            "start_date": self.start_date,
+            "days_per_billing_cycle": self.days_per_billing_cycle,
+            "number_of_payments": self.number_of_payments,
+            "change_indicator_url": self.change_indicator_url
+        }
+        return Encode.monero_payment_request_from_json(json_data=json_data, version=self.version)
+
+
+class CronValidation():
+    delimiters = ',-/'
+    month_codes = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
+    dow_codes = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']
+    def __init__(self, schedule):
+        self.schedule = schedule
+        self.delimiters =         cron_def = self.parse_cron()
+        self.minutes = cron_def['minutes']
+        self.hours = cron_def['hours']
+        self.days = cron_def['days']
+        self.months = cron_def['months']
+        self.dow = cron_def['dow']
+        self.any = ['*']
+
+    def parse_cron(self):
+        schedule_args = self.schedule.split(' ')
+
+        if len(schedule_args) < 5:
+            ValueError('Invalid Cron: Too Few Of Arguments')
+
+        sched = {}
+
+        sched['minutes'] = re.split(self.delimiters, schedule_args[0])
+        sched['hours'] = re.split(self.delimiters, schedule_args[1])
+        sched['days'] = re.split(self.delimiters, schedule_args[2])
+        sched['months'] = re.split(self.delimiters, schedule_args[3])
+        sched['dow'] = re.split(self.delimiters, schedule_args[4])
+
+        return sched
+
+    def valid(self):
+        return_message = []
+        if not self.valid_minutes():
+            return_message.append('Invalid Minutes')
+
+        if not self.valid_hours():
+            return_message.append('Invalid Hours')
+
+        if not self.valid_days():
+            return_message.append('Invalid Day')
+
+        if not self.valid_months():
+            return_message.append('Invalid Month')
+
+        if not self.valid_dow():
+            return_message.append('Invalid Day of the Week')
+
+        if return_message:
+            raise ValueError(' '.join(return_message))
+        else:
+            return True
+
+    def valid_minutes(self):
+        if self.minutes == self.any:
+            return True
+        try:
+            results = []
+            for minute in self.minutes:
+                int_minute = int(minute)
+                results.append(int_minute >= 0 and int_minute <= 59)
+            return any(results)
+        except ValueError:
+            return False
+
+    def valid_hours(self):
+        if self.hours == self.any:
+            return True
+        try:
+            results = []
+            for hour in self.hours:
+                int_hour = int(hour)
+                results.append(int_hour >= 0 and int_hour <= 23)
+            return any(results)
+        except ValueError:
+            return False
+
+    def valid_days(self):
+        if self.days == self.any:
+            return True
+        try:
+            results = []
+            for day in self.days:
+                int_day = int(day)
+                results.append(int_day >= 1 and int_day <= 31)
+            return any(results)
+        except ValueError:
+            return False
+
+    def valid_months(self):
+        if self.months == self.any:
+            return True
+        results = []
+        try:
+            for month in self.months:
+                int_month = int(month)
+                results.append(int_month >= 1 and int_month <= 12)
+        except ValueError:
+            for month in self.months:
+                results.append(month.lower() in self.month_codes)
+        return any(results)
+
+    def valid_dow(self):
+        if self.dow == self.any:
+            return True
+        results = []
+        try:
+            for dow in self.dow:
+                int_dow = int(dow)
+                results.append(int_dow >= 0 and int_dow <= 7)
+        except ValueError:
+            for dow in self.dow:
+                results.append(dow.lower() in self.dow_codes)
+        return any(results)
 
 '''
 monero_payment_request = make_monero_payment_request(
