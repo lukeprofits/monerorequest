@@ -1,3 +1,6 @@
 build/
 __pycache__
 monerorequest.egg-info
+htmlcov
+.coverage
+coverage.xml

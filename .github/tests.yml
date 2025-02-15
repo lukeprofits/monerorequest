@@ -1,0 +1,14 @@
+name: Run Tests
+run-name: Testing the Project
+on: [push]
+jobs:
+  Python-Tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Running tests
+        run: |
+          pip install coverage
+          coverage run -m discover test
+          coverage xml coverage.xml
