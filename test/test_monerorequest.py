@@ -42,7 +42,6 @@ class TestMoneroRequest(unittest.TestCase):
         request_string = make_monero_payment_request(**payment_request)
         self.maxDiff = None
         self.assertEqual(request_string, 'monero-request:1:H4sIAAAAAAACAy2OS0/DMBCE/4vPbeWkTktyS0qCBAKJtpTSi+XH5iEcu7IdIEH8dxzEaXe+Wc3ON2K9GbRHGYrwCmO0QKJlugHaadkJ5o2lg1XBnp3BWtBiDOrlcPsHnDc9VYzDfOLB+UAlGx29gqW8U6rTDRWjUICyaIH00PNgmJpe2diD9i5gvED/inYyxHBBBN7WRJANyLjmIdKBUmAd/WRhzmVJ7tfnxH6cxuvR1E0/wFPq0mdvJ7mHpBigsu49v3TRtjBvvJ1GZ6bJPFbFZnrVxwd5t9vkX2XOyzIRU7Vft2G7564n7Q7O8WF+6Zn1VDIfmqMYx2SJ0yVOjlGaRTdZlKzIGl/Qzy/yB8wvQQEAAA==')
-        return True
 
     def test_make_monero_payment_request_v1_w_defaults(self):
         payment_request = {
@@ -80,4 +79,3 @@ class TestMoneroRequest(unittest.TestCase):
         request_string = make_monero_payment_request(**payment_request)
         self.maxDiff = None
         self.assertEqual(request_string, 'monero-request:2:H4sIAAAAAAACAy1O206DQBD9FbOPpm0WWFrhDSo10WhiW7X2ZbOXoRBht9mLCsZ/dzHNPMycW+b8INZrrxzKUYQXGKMZEg1TJ6Ctkq1gThvqTRfkSfHGgBJDQC+723/COt3TjnGYLA6sC6zyPQdDdU3PbOhBOYvyCM/QBdFWBi8XROBVTQRZgoxrHnJWNCB9B0G9vrrMREPXgbH0i4U9FSWFSw6p+Xwdzntdn3oPT5nNnp0Z5RbS0sPG2I/i2EarUr/zZhysHkf9uCmX45vaP8i79bL4rgpeVakYN9ukCdc9tz1p1nCId9NLx4yjkrmpS4xjMsfZHKf7KMujmzxKFyTBR/T7BxO/cqM9AQAA')
-        return True
