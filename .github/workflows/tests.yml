@@ -10,5 +10,5 @@ jobs:
       - name: Running tests
         run: |
           pip install coverage
-          coverage run -m discover test
+          coverage run -m unittest discover test
           coverage xml coverage.xml
