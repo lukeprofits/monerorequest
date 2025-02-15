@@ -8,7 +8,6 @@ def make_random_payment_id():
     payment_id = ''.join([random.choice('0123456789abcdef') for _ in range(16)])
     return payment_id
 
-
 def convert_datetime_object_to_truncated_RFC3339_timestamp_format(datetime_object):
     if datetime_object.tzinfo is None or datetime_object.tzinfo.utcoffset(datetime_object) is None:
         datetime_object = datetime_object.replace(tzinfo=timezone.utc)
@@ -16,10 +15,8 @@ def convert_datetime_object_to_truncated_RFC3339_timestamp_format(datetime_objec
         datetime_object = datetime_object.astimezone(timezone.utc)
     return datetime_object.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z'
 
-
 def decode_monero_payment_request(monero_payment_request):
     return Decode.monero_payment_request_from_code(monero_payment_request=monero_payment_request)
-
 
 def make_monero_payment_request(custom_label: str = 'Unlabeled Monero Payment Request',
                                 sellers_wallet: str = '',

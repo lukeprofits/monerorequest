@@ -44,6 +44,12 @@ monero_payment_request_data = monerorequest.decode_monero_payment_request(monero
 * Create an RFC3339 timestamp for `start_date` from a datetime object: `monerorequest.convert_datetime_object_to_truncated_RFC3339_timestamp_format(datetime_object)`
 * Print the Monero logo to console: `monerorequest.print_monero_logo()`
 
+# Contributing
+* For changes to the protocol, see [the payment request standard project](https://github.com/lukeprofits/Monero_Payment_Request_Standard)
+* There are no dependencies for the project besides python.
+* To run the tests locally run `python -m unittest discover test`
+* If you want to run the coverage check locally before opening a PR, install `coverage` and run `coverage html --include='./monerorequest/**'` and open `./htmlcov/index.html` in your browser.
+* If you want to run the linting check locally before opening a PR, install `ruff` and run `ruff check .`, if there is no output that means there are no errors.
 
 # Donate
 - XMR: `4At3X5rvVypTofgmueN9s9QtrzdRe5BueFrskAZi17BoYbhzysozzoMFB6zWnTKdGC6AxEAbEE5czFR3hbEEJbsm4hCeX2S`

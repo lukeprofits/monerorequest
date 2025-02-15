@@ -1,1 +1,1 @@
-from .monerorequest import *
+from .monerorequest import *  # noqa: F403
