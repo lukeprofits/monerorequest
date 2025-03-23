@@ -27,7 +27,7 @@ monero_payment_request_data = monerorequest.decode_monero_payment_request(monero
 * A Monero Payment Request looks like this: 
 ```monero-request:2:H4sIAAAAAAACAy1PyU7DMBD9FcvHqq2yNOstLS0SqAi6QOnFsuNpE5HYxQuQIP4dp3Cat8yb5RvTVlphcI6DaJpleIzLioozkFrwuqRGKmJV4+zBsUqBKDvH9tubq6CNbElDGQwte3FFwNFaClASPdKuBWHQBt4taOMSwrYMFJEncvnzNM79Mf4npOZuTJqmGU98xsIkLpMkdTFdVsBtA871kId8NEKjQYamAaXJJ3V1+GFWmPAQqY/n7rKTp3Nr4SHT2ZNRPd9ANLewUvqtONZ+MpevrOo7LfterlfzuH8Ru3t+u4iLr2XBlsuo7FebsHLojul2Vi3gEGyHlYYqQzg1wy2BF8wmXjbxw52f5lGQh940jZMj/vkFse3xMVgBAAA=```
 
-* When decoded, it is a dictionary with this information: `{'amount': '25.99', 'change_indicator_url': '', 'currency': 'USD', 'custom_label': 'Unlabeled Monero Payment Request', schedule='0 0 1 * *', 'number_of_payments': 0, 'payment_id': '0aff662b3151e624', 'sellers_wallet': '4At3X5rvVypTofgmueN9s9QtrzdRe5BueFrskAZi17BoYbhzysozzoMFB6zWnTKdGC6AxEAbEE5czFR3hbEEJbsm4hCeX2S', 'start_date': '2023-10-26T04:55:37.443Z'}`
+* When decoded, it is a dictionary with this information: `{'amount': '25.99', 'change_indicator_url': '', 'currency': 'USD', 'custom_label': 'Unlabeled Monero Payment Request', schedule='0 0 1 * *', 'number_of_payments': 0, 'payment_id': '0aff662b3151e624', 'sellers_wallet': '4At3X5rvVypTofgmueN9s9QtrzdRe5BueFrskAZi17BoYbhzysozzoMFB6zWnTKdGC6AxEAbEE5czFR3hbEEJbsm4hCeX2S', 'start_date': '2023-10-26T04:55:37.443Z', 'version': '2;'}`
 
 
 # Defaults For `make_monero_payment_request()`

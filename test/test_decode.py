@@ -1,5 +1,5 @@
 import unittest
-from monerorequest.decode import Decode
+from src.monerorequest.decode import Decode
 
 class TestDecode(unittest.TestCase):
     def test_invalid_payment_request_decoding(self):

@@ -1,5 +1,5 @@
 import unittest
-from monerorequest.encode import Encode
+from src.monerorequest.encode import Encode
 
 class TestEncode(unittest.TestCase):
     def test_invalid_payment_request_encoding(self):

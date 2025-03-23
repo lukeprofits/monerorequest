@@ -1,8 +1,8 @@
 import unittest
 from datetime import datetime, timezone, timedelta
-from monerorequest import make_random_payment_id, convert_datetime_object_to_truncated_RFC3339_timestamp_format,\
+from src.monerorequest import make_random_payment_id, convert_datetime_object_to_truncated_RFC3339_timestamp_format,\
                           decode_monero_payment_request, make_monero_payment_request
-from monerorequest.check import Check
+from src.monerorequest.check import Check
 
 class TestMoneroRequest(unittest.TestCase):
     def test_make_random_payment_id(self):

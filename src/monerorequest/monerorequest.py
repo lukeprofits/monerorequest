@@ -55,22 +55,3 @@ def make_monero_payment_request(custom_label: str = 'Unlabeled Monero Payment Re
                             allow_integrated_address=allow_integrated_address, allow_subaddress=allow_subaddress, allow_stagenet=allow_stagenet)
         if request.valid():
             return request.encode()
-
-'''
-monero_payment_request = make_monero_payment_request(
-                                custom_label='Unlabeled Monero Payment Request',
-                                sellers_wallet='4At3X5rvVypTofgmueN9s9QtrzdRe5BueFrskAZi17BoYbhzysozzoMFB6zWnTKdGC6AxEAbEE5czFR3hbEEJbsm4hCeX2S',
-                                currency='USD',
-                                amount='25.99',
-                                payment_id='',
-                                start_date='',
-                                days_per_billing_cycle=30,
-                                number_of_payments=1,
-                                change_indicator_url='')
-print(monero_payment_request)
-
-
-monero_payment_request = 'monero-request:1:H4sIAAAAAAAC/y1QyU7DMBD9lcrntkriOFVyS0uKBCqCLlB6sex40kQkdvECJIh/xymc5i0z8zTzjVinnLQoQxGZpymaorJm8gy0kaIpmVWaOt16e3Sc1iDL3rPD7uYqGKs62jIOY8tBXhGIyUZJ0GryyPoOpJ1s4d2BsX5CsN7QC2jKm7Zt5JmWfdkCynAwRdJ13Duqope/OYMyL/8T2ggfEbCqSpKI45CEkESxX2mgbUEb+sl8HQ+Jc4uPRH8895e9qs6dg4fUpE9WD2ILZOlgrc1bfmrCxVK98nrojRoGtVkvk+FF7u/F7SrJv4qcFwUph/UW1x7dcdPF9QqO0W6MtExbKpiF8W9BhGdhMIuSfRBnhGR4MY9jfEI/vzFHmeFdAQAA'
-monero_payment_request_data = decode_monero_payment_request(monero_payment_request=monero_payment_request)
-print(monero_payment_request_data)
-#'''

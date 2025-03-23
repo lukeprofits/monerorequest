@@ -1,5 +1,5 @@
 import unittest
-from monerorequest.request_v1 import RequestV1
+from src.monerorequest.request_v1 import RequestV1
 
 class TestRequestV1(unittest.TestCase):
     def setUp(self):

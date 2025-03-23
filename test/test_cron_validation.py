@@ -1,5 +1,5 @@
 import unittest
-from monerorequest.cron_validation import CronValidation
+from src.monerorequest.cron_validation import CronValidation
 
 class TestCronValidation(unittest.TestCase):
     def test_valid_amount_of_arguments(self):

@@ -1,5 +1,5 @@
 import unittest
-from monerorequest.check import Check
+from src.monerorequest.check import Check
 
 class TestCheck(unittest.TestCase):
     def test_wallet(self):
