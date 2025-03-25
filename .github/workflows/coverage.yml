@@ -5,6 +5,8 @@ on:
       - main
 jobs:
   coverage:
+    permissions:
+      pull-requests: write
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
