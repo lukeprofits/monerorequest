@@ -8,27 +8,21 @@ class CronValidation():
     def __init__(self, schedule):
         self.schedule = schedule
         cron_def = self.parse_cron()
-        self.minutes = cron_def['minutes']
-        self.hours = cron_def['hours']
-        self.days = cron_def['days']
-        self.months = cron_def['months']
-        self.dow = cron_def['dow']
+        self.minutes = cron_def.get('minutes', [])
+        self.hours = cron_def.get('hours', [])
+        self.days = cron_def.get('days', [])
+        self.months = cron_def.get('months', [])
+        self.dow = cron_def.get('dow', [])
         self.any = ['*']
         self.errors = []
 
     def parse_cron(self):
+        time_indexes = ['minutes', 'hours', 'days', 'months', 'dow']
         schedule_args = self.schedule.split(' ')
 
-        if len(schedule_args) < 5:
-            raise ValueError('Invalid Cron: Too Few Of Arguments')
-
         sched = {}
-
-        sched['minutes'] = re.split(self.delimiters, schedule_args[0])
-        sched['hours'] = re.split(self.delimiters, schedule_args[1])
-        sched['days'] = re.split(self.delimiters, schedule_args[2])
-        sched['months'] = re.split(self.delimiters, schedule_args[3])
-        sched['dow'] = re.split(self.delimiters, schedule_args[4])
+        for idx in range(len(schedule_args)):
+            sched[time_indexes[idx]] = re.split(self.delimiters, schedule_args[idx])
 
         return sched
 
