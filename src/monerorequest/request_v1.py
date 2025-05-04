@@ -47,6 +47,7 @@ class RequestV1(Request):
                 self.errors['days_per_billing_cycle'].append('is not an integer')
             if Check.is_int(self.days_per_billing_cycle) and not Check.billing_cycle_positive(self.days_per_billing_cycle):
                 self.errors['days_per_billing_cycle'].append('the value was set lower than 0')
+        return not self.errors.get('days_per_billing_cycle', False)
 
     def encode(self):
         json_data = {

@@ -47,6 +47,8 @@ class RequestV2(Request):
             cv = CronValidation(self.schedule)
             if not cv.valid():
                 self.errors['schedule'] + cv.errors
+        return not self.errors.get('schedule', False)
+
 
     def encode(self):
         json_data = {
