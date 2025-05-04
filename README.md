@@ -48,7 +48,7 @@ monero_payment_request_data = monerorequest.decode_monero_payment_request(monero
 * For changes to the protocol, see [the payment request standard project](https://github.com/lukeprofits/Monero_Payment_Request_Standard)
 * There are no dependencies for the project besides python.
 * To run the tests locally run `python -m unittest discover test`
-* If you want to run the coverage check locally before opening a PR, install `coverage` and run `coverage html --include='./monerorequest/**'` and open `./htmlcov/index.html` in your browser.
+* If you want to run the coverage check locally before opening a PR, install `coverage` and run `coverage html --include='./src/**'` and open `./htmlcov/index.html` in your browser.
 * If you want to run the linting check locally before opening a PR, install `ruff` and run `ruff check .`, if there is no output that means there are no errors.
 * To build the package run `python -m build`
 * To properly test the package's functionality, you should install the built `.whl` file. If using pipenv, you can run `pipenv install /path/to/dist/monerorequest.whl`.
