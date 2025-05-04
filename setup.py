@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='monerorequest',
-    version='2.0.2',
+    version='2.1.0',
     author="Luke Profits",
     description="monerorequest is an easy way to create/decode Monero Payment Requests.",
     url="https://github.com/lukeprofits/monerorequest",
