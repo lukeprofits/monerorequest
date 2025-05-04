@@ -6,7 +6,11 @@ class Decode:
     @staticmethod
     def monero_payment_request_from_code(monero_payment_request):
         # Extract prefix, version, and Base64-encoded data
-        prefix, version, encoded_str = monero_payment_request.split(':')
+        request_split = monero_payment_request.split(':')
+        if len(request_split) < 3:
+            return False
+
+        prefix, version, encoded_str = request_split
 
         if version == '1':
             monero_payment_request_data = Decode.v1_monero_payment_request(encoded_str=encoded_str)
@@ -14,7 +18,7 @@ class Decode:
         elif version == '2':
            monero_payment_request_data = Decode.v2_monero_payment_request(encoded_str=encoded_str)
         else:
-            raise ValueError("Invalid input")
+            return False
 
         return monero_payment_request_data
 

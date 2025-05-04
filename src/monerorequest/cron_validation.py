@@ -28,19 +28,19 @@ class CronValidation():
 
     def valid(self):
         if not self.valid_minutes():
-            self.errors.append('Invalid Minutes')
+            self.errors.append('invalid minutes')
 
         if not self.valid_hours():
-            self.errors.append('Invalid Hours')
+            self.errors.append('invalid hours')
 
         if not self.valid_days():
-            self.errors.append('Invalid Day')
+            self.errors.append('invalid day')
 
         if not self.valid_months():
-            self.errors.append('Invalid Month')
+            self.errors.append('invalid month')
 
         if not self.valid_dow():
-            self.errors.append('Invalid Day of the Week')
+            self.errors.append('invalid day of the week')
 
         if self.errors:
             return False
