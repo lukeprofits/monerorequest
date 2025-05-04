@@ -13,53 +13,62 @@ class TestRequestV2(unittest.TestCase):
         with self.subTest(i=0):
             payment_request = self.valid_payment.copy()
             payment_request['custom_label'] = None
-            with self.assertRaisesRegex(ValueError, 'custom_label'):
-                RequestV2(**payment_request).valid()
+            request = RequestV2(**payment_request)
+            self.assertEqual(request.valid(), False)
+            self.assertEqual(request.errors['custom_label'], ['is not a string'])
 
         with self.subTest(i=1):
             payment_request = self.valid_payment.copy()
             payment_request['sellers_wallet'] = '4'
-            with self.assertRaisesRegex(ValueError, 'sellers_wallet'):
-                RequestV2(**payment_request).valid()
+            request = RequestV2(**payment_request)
+            self.assertEqual(request.valid(), False)
+            self.assertEqual(request.errors['sellers_wallet'], ['is not exactly 95 or 106 characters long', 'it does not begin with a 4'])
 
         with self.subTest(i=2):
             payment_request = self.valid_payment.copy()
             payment_request['currency'] = ''
-            with self.assertRaisesRegex(ValueError, 'currency'):
-                RequestV2(**payment_request).valid()
+            request = RequestV2(**payment_request)
+            self.assertEqual(request.valid(), False)
+            self.assertEqual(request.errors['currency'], ['is not supported'])
 
         with self.subTest(i=3):
             payment_request = self.valid_payment.copy()
             payment_request['amount'] = ''
-            with self.assertRaisesRegex(ValueError, 'amount'):
-                RequestV2(**payment_request).valid()
+            request = RequestV2(**payment_request)
+            self.assertEqual(request.valid(), False)
+            self.assertEqual(request.errors['amount'], ['contains invalid characters'])
 
         with self.subTest(i=4):
             payment_request = self.valid_payment.copy()
             payment_request['payment_id'] = '123'
-            with self.assertRaisesRegex(ValueError, 'payment_id'):
-                RequestV2(**payment_request).valid()
+            request = RequestV2(**payment_request)
+            self.assertEqual(request.valid(), False)
+            self.assertEqual(request.errors['payment_id'], ['is not exactly 16 characters'])
 
         with self.subTest(i=5):
             payment_request = self.valid_payment.copy()
             payment_request['start_date'] = '2024-09-05T19:'
-            with self.assertRaisesRegex(ValueError, 'start_date'):
-                RequestV2(**payment_request).valid()
+            request = RequestV2(**payment_request)
+            self.assertEqual(request.valid(), False)
+            self.assertEqual(request.errors['start_date'], ['is not in the correct format'])
 
         with self.subTest(i=6):
             payment_request = self.valid_payment.copy()
             payment_request['schedule'] = 'a a a a a'
-            with self.assertRaisesRegex(ValueError, 'schedule'):
-                RequestV2(**payment_request).valid()
+            request = RequestV2(**payment_request)
+            self.assertEqual(request.valid(), False)
+            self.assertEqual(request.errors['schedule'], ['is not a valid cron syntax'])
 
         with self.subTest(i=7):
             payment_request = self.valid_payment.copy()
             payment_request['number_of_payments'] = ''
-            with self.assertRaisesRegex(ValueError, 'number_of_payments'):
-                RequestV2(**payment_request).valid()
+            request = RequestV2(**payment_request)
+            self.assertEqual(request.valid(), False)
+            self.assertEqual(request.errors['number_of_payments'], ['is not an integer'])
 
         with self.subTest(i=8):
             payment_request = self.valid_payment.copy()
             payment_request['change_indicator_url'] = None
-            with self.assertRaisesRegex(ValueError, 'change_indicator_url'):
-                RequestV2(**payment_request).valid()
+            request = RequestV2(**payment_request)
+            self.assertEqual(request.valid(), False)
+            self.assertEqual(request.errors['change_indicator_url'], ['is not a string', 'is not a valid URL'])

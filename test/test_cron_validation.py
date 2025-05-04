@@ -5,7 +5,7 @@ class TestCronValidation(unittest.TestCase):
     def test_valid_amount_of_arguments(self):
         invalid_cron = CronValidation('')
         invalid_cron.valid()
-        self.assertEqual(invalid_cron.errors, ['Invalid Minutes', 'Invalid Hours', 'Invalid Day', 'Invalid Month', 'Invalid Day of the Week'])
+        self.assertEqual(invalid_cron.errors, ['invalid minutes', 'invalid hours', 'invalid day', 'invalid month', 'invalid day of the week'])
         self.assertEqual(invalid_cron.valid(), False)
 
     def test_valid_minutes(self):

@@ -3,7 +3,7 @@ from .check import Check
 class Request():
     def name_validity(self):
         if not Check.name(self.custom_label):
-            self.errors['custom_label'] = ['is not a string.']
+            self.errors['custom_label'] = ['is not a string']
 
     def wallet_validity(self):
         if not Check.wallet(self.sellers_wallet, self.allow_standard, self.allow_integrated_address, self.allow_subaddress, self.allow_stagenet):
@@ -57,9 +57,9 @@ class Request():
         if not Check.number_of_payments(self.number_of_payments):
             self.errors['number_of_payments'] = []
             if not Check.is_int(self.number_of_payments):
-                self.errors.append('is not an integer')
-            if not Check.payments_valid(self.number_of_payments):
-                self.errors.append('is less than -1')
+                self.errors['number_of_payments'].append('is not an integer')
+            if Check.is_int(self.number_of_payments) and not Check.payments_valid(self.number_of_payments):
+                self.errors['number_of_payments'].append('is less than -1')
 
     def change_indicator_validity(self):
         if not Check.change_indicator_url(self.change_indicator_url):

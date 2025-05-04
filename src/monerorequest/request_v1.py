@@ -42,11 +42,11 @@ class RequestV1(Request):
 
     def billing_cycle_validity(self):
         if not Check.days_per_billing_cycle(self.days_per_billing_cycle):
-            self.errors['billing_cycle'] = []
+            self.errors['days_per_billing_cycle'] = []
             if not Check.is_int(self.days_per_billing_cycle):
-                self.errors['billing_cycle'].append('is not an integer')
-            if not Check.billing_cycle_positive(self.days_per_billing_cycle):
-                self.errors['billing_cycle'].append('the value was set lower than 0')
+                self.errors['days_per_billing_cycle'].append('is not an integer')
+            if Check.is_int(self.days_per_billing_cycle) and not Check.billing_cycle_positive(self.days_per_billing_cycle):
+                self.errors['days_per_billing_cycle'].append('the value was set lower than 0')
 
     def encode(self):
         json_data = {
