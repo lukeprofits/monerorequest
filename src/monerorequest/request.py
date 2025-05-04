@@ -50,7 +50,7 @@ class Request():
                 if not Check.payment_id_length(self.payment_id):
                     self.errors['payment_id'].append('is not exactly 16 characters')
                 if not Check.payment_id_characters(self.payment_id):
-                    self.errors['payment_id'].append('contains invalid character(s)')
+                    self.errors['payment_id'].append('contains invalid characters')
         return not self.errors.get('payment_id', False)
 
     def start_date_validity(self):

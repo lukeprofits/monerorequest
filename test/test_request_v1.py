@@ -73,7 +73,7 @@ class TestRequestV1(unittest.TestCase):
             request = RequestV1(**payment_request)
             self.assertEqual(request.valid(), False)
             self.assertEqual(request.payment_id_validity(), False)
-            self.assertEqual(request.errors['payment_id'], ['is not exactly 16 characters', 'contains invalid character(s)'])
+            self.assertEqual(request.errors['payment_id'], ['is not exactly 16 characters', 'contains invalid characters'])
 
             payment_request['payment_id'] = None
             request = RequestV1(**payment_request)
