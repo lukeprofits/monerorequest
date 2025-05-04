@@ -3,8 +3,10 @@ from src.monerorequest.cron_validation import CronValidation
 
 class TestCronValidation(unittest.TestCase):
     def test_valid_amount_of_arguments(self):
-        with self.assertRaisesRegex(ValueError, 'Invalid Cron'):
-            self.assertEqual(CronValidation('* * *').parse_cron())
+        invalid_cron = CronValidation('')
+        invalid_cron.valid()
+        self.assertEqual(invalid_cron.errors, ['invalid minutes', 'invalid hours', 'invalid day', 'invalid month', 'invalid day of the week'])
+        self.assertEqual(invalid_cron.valid(), False)
 
     def test_valid_minutes(self):
         with self.subTest(i=0):

@@ -8,45 +8,39 @@ class CronValidation():
     def __init__(self, schedule):
         self.schedule = schedule
         cron_def = self.parse_cron()
-        self.minutes = cron_def['minutes']
-        self.hours = cron_def['hours']
-        self.days = cron_def['days']
-        self.months = cron_def['months']
-        self.dow = cron_def['dow']
+        self.minutes = cron_def.get('minutes', [])
+        self.hours = cron_def.get('hours', [])
+        self.days = cron_def.get('days', [])
+        self.months = cron_def.get('months', [])
+        self.dow = cron_def.get('dow', [])
         self.any = ['*']
         self.errors = []
 
     def parse_cron(self):
+        time_indexes = ['minutes', 'hours', 'days', 'months', 'dow']
         schedule_args = self.schedule.split(' ')
 
-        if len(schedule_args) < 5:
-            raise ValueError('Invalid Cron: Too Few Of Arguments')
-
         sched = {}
-
-        sched['minutes'] = re.split(self.delimiters, schedule_args[0])
-        sched['hours'] = re.split(self.delimiters, schedule_args[1])
-        sched['days'] = re.split(self.delimiters, schedule_args[2])
-        sched['months'] = re.split(self.delimiters, schedule_args[3])
-        sched['dow'] = re.split(self.delimiters, schedule_args[4])
+        for idx in range(len(schedule_args)):
+            sched[time_indexes[idx]] = re.split(self.delimiters, schedule_args[idx])
 
         return sched
 
     def valid(self):
         if not self.valid_minutes():
-            self.errors.append('Invalid Minutes')
+            self.errors.append('invalid minutes')
 
         if not self.valid_hours():
-            self.errors.append('Invalid Hours')
+            self.errors.append('invalid hours')
 
         if not self.valid_days():
-            self.errors.append('Invalid Day')
+            self.errors.append('invalid day')
 
         if not self.valid_months():
-            self.errors.append('Invalid Month')
+            self.errors.append('invalid month')
 
         if not self.valid_dow():
-            self.errors.append('Invalid Day of the Week')
+            self.errors.append('invalid day of the week')
 
         if self.errors:
             return False
