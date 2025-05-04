@@ -6,6 +6,7 @@ on:
 jobs:
   coverage:
     permissions:
+      contents: read
       pull-requests: write
     runs-on: ubuntu-latest
     steps:
@@ -16,7 +17,7 @@ jobs:
           pip install coverage
           coverage run -m unittest discover test
           coverage xml --include='./src/**'
-      - name: Get Cover
+      - name: Get Coverage
         uses: orgoro/coverage@v3.2
         with:
           coverageFile: coverage.xml
