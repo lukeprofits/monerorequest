@@ -7,7 +7,7 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
-      - name: Check zlib version
-        run: python -c "import zlib; print(zlib.__version__)"
+      - name: Check python version
+        run: python --version
       - name: Running tests
         run: python -m unittest discover test
