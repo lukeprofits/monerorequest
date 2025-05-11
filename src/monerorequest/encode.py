@@ -26,7 +26,7 @@ class Encode:
         # Convert the JSON data to a string
         json_str = json.dumps(json_data, separators=(',', ':'), sort_keys=True)
         # Compress the string using gzip compression
-        compressed_data = gzip.compress(json_str.encode('utf-8'), mtime=0)
+        compressed_data = gzip.compress(json_str.encode('utf-8'), mtime=0, compresslevel=6)
         # Encode the compressed data into a Base64-encoded string
         encoded_str = base64.b64encode(compressed_data).decode('ascii')
         return encoded_str
